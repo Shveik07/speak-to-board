@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: voice-to-kanban-bot
+    runtime: python
+    plan: free
+    buildCommand: |
+      pip install -r requirements.txt
+      mkdir -p models
+      wget -O model.zip https://alphacephei.com/vosk/models/vosk-model-small-ru-0.22.zip
+      unzip model.zip -d models/
+      mv models/vosk-model-small-ru-0.22 models/vosk-model
+      rm model.zip
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 120
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: TRELLO_API_KEY
+        sync: false
+      - key: TRELLO_API_TOKEN
+        sync: false
+      - key: TRELLO_LIST_ID
+        sync: false
