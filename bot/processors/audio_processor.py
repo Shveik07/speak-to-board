@@ -3,20 +3,18 @@ import os
 from bot.core import config
 
 def convert_ogg_to_wav(ogg_path, wav_path):
-    """
-    Конвертирует OGG в WAV с параметрами, необходимыми для Vosk:
-    - частота дискретизации 16000 Гц
-    - моно
-    - 16-bit PCM
-    Использует FFmpeg (должен быть установлен в системе).
-    """
+    # Конвертирует OGG в WAV с параметрами, необходимыми для Vosk:
+    # - частота дискретизации 16000 Гц
+    # - моно
+    # - 16-bit PCM
+    # Использует FFmpeg (должен быть установлен в системе).
     cmd = [
-        config.FFMPEG_PATH,  # используем полный путь или имя
-        '-i', ogg_path,           # входной файл
-        '-ar', '16000',            # частота 16 кГц
-        '-ac', '1',                 # моно
-        '-sample_fmt', 's16',       # 16-bit PCM
-        '-y',                        # перезаписывать, если файл существует
+        config.FFMPEG_PATH,     # используем полный путь или имя
+        '-i', ogg_path,         # входной файл
+        '-ar', '16000',         # частота 16 кГц
+        '-ac', '1',             # моно
+        '-sample_fmt', 's16',   # 16-bit PCM
+        '-y',                   # перезаписывать, если файл существует
         wav_path
     ]
     try:
@@ -30,7 +28,7 @@ def convert_ogg_to_wav(ogg_path, wav_path):
         raise Exception("FFmpeg не найден. Убедитесь, что он установлен и добавлен в PATH.")
 
 def cleanup_temp_files(*file_paths):
-    """Удаляет временные файлы, если они существуют."""
+    # Удаляет временные файлы, если они существуют.
     for file_path in file_paths:
         try:
             if file_path and os.path.exists(file_path):

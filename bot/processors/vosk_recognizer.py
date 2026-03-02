@@ -5,14 +5,14 @@ from vosk import Model, KaldiRecognizer
 
 class VoskRecognizer:
     def __init__(self, model_path):
-        """Инициализация модели Vosk [1]"""
+        # Инициализация модели Vosk
         if not os.path.exists(model_path):
             raise Exception(f"Модель не найдена: {model_path}")
         self.model = Model(model_path)
         self.rec = None
         
     def transcribe(self, audio_path):
-        """Распознавание речи из WAV файла [9]"""
+        #Распознавание речи из WAV файла
         try:
             wf = wave.open(audio_path, "rb")
             
