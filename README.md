@@ -15,7 +15,11 @@
 
 - 🎙️ **Голосовой ввод** — отправляйте голосовые сообщения вместо набора текста
 - 🤖 **AI-распознавание** — точная транскрибация речи с помощью Vosk
-- 📋 **Автосоздание задач** — каждая голосовая заметка становится карточкой на доске
+- 📋 **Автосоздание задач** — каждая голосовая заметка становится карточкой на доске с указанием автора
+- 📋 **Выбор целевой колонки** через команды `/lists` и инлайн-кнопки
+- 🔄 Сброс выбора командой `/reset`
+- 🐳 Полная контейнеризация (Docker)
+- 🔐 Защищённый локальный registry с HTTPS (через nip.io и Let's Encrypt)
 - 🧠 **Умный анализ** (в разработке) — извлечение дедлайнов, приоритетов и тегов из речи
 <!-- - 🔄 **Автодеплой** — готовые скрипты для запуска на Render/VPS -->
 
@@ -163,7 +167,9 @@
                - Aiogram 3.x — библиотека для Telegram Bot API
 - **Speech-to-Text**: Vosk — офлайн-распознавание речи
 - **Audio Processing**: FFmpeg — конвертация аудио (OGG → WAV)
-- **API Integration**: Trello REST API 
+- **API Integration**: Trello REST API
+- **Контейнеризация:** Docker
+- **Reverse proxy:** Nginx
 <!-- - **Deploy**: Docker, GitHub Actions, Render/VPS -->
 
 ## 📦 Установка
@@ -202,6 +208,16 @@
     ```
     python bot.py
     ```
+
+### 🧪 Локальный запуск (тестирование)
+```
+    python app.py
+    Отправьте боту команду /start.
+
+    Попробуйте отправить голосовое сообщение.
+
+    Убедитесь, что в Trello создаётся карточка в списке по умолчанию.
+```
 
 ### ☁️ Развёртывание на сервере (Ubuntu + systemd)
 
@@ -243,6 +259,20 @@
     sudo journalctl -u voice-bot.service -f
 ```
 
+### 📦 Docker-контейнеризация
+```
+    Сборка образа
+
+    docker build -t speak-to-board:latest .
+    Запуск контейнера с пробросом .env
+
+    docker run -d \
+    --name speak-to-board \
+    --restart always \
+    -p 5000:5000 \
+    --env-file .env \
+    speak-to-board:latest
+```
 
 ## 📝 Переменные окружения
 
@@ -252,6 +282,7 @@
 | VOSK_MODEL_PATH | Путь к папке с моделью Vosk	| models/vosk-model |
 | TRELLO_API_KEY| API-ключ Trello| ... |
 |TRELLO_API_TOKEN |	Токен доступа Trello |	... |
+| TRELLO_BOARD_ID| ID доски Trello (можно взять из URL) | cLfv6sdasd |
 | TRELLO_LIST_ID |	ID списка (колонки) Trello |	... |
 | FFMPEG_PATH |	Команда или полный путь к ffmpeg |	ffmpeg (Linux) / C:\... |
 | TEMP_DIR |	Папка для временных файлов (по умолчанию temp) |	temp |
@@ -274,6 +305,7 @@ speak-to-board/
 ├── temp/ # временные аудиофайлы (создаётся автоматически)
 ├── app.py # точка входа (Flask + бот в главном потоке)
 ├── Dockerfile             # Контейнеризация
+├── docker-compose.yml (опционально)
 ├── requirements.txt       # Зависимости
 ├── .env.example # пример переменных окружения
 ├── .gitignore

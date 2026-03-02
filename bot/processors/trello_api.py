@@ -3,7 +3,7 @@ from bot.core import config
 
 #Функция получения списков доски
 def get_board_lists():
-    """Возвращает список всех колонок (списков) на доске."""
+    # Запрос API. Возвращает список всех колонок на доске.
     url = f"https://api.trello.com/1/boards/{config.TRELLO_BOARD_ID}/lists"
     params = {
         'key': config.TRELLO_API_KEY,
@@ -18,9 +18,7 @@ def get_board_lists():
         return []
 
 def create_task(title, description, member_name=None, list_id=None):
-    """
-    Создаёт карточку в указанном списке (или в списке по умолчанию).
-    """
+    # Создаём карточку в указанном списке (или в списке по умолчанию).
     if list_id is None:
         list_id = config.TRELLO_LIST_ID
 
