@@ -14,6 +14,7 @@ VOSK_MODEL_PATH = os.getenv("VOSK_MODEL_PATH", "models/vosk-model")
 TRELLO_API_KEY = os.getenv("TRELLO_API_KEY")
 TRELLO_API_TOKEN = os.getenv("TRELLO_API_TOKEN")
 TRELLO_LIST_ID = os.getenv("TRELLO_LIST_ID")
+TRELLO_BOARD_ID = os.getenv("TRELLO_BOARD_ID")
 
 # ffmpeg
 FFMPEG_PATH = os.getenv("FFMPEG_PATH", "ffmpeg")  # по умолчанию просто "ffmpeg"

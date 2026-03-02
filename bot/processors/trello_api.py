@@ -1,18 +1,37 @@
 import requests
 from bot.core import config
 
-def create_task(title, description, member_name=None):
+#Функция получения списков доски
+def get_board_lists():
+    """Возвращает список всех колонок (списков) на доске."""
+    url = f"https://api.trello.com/1/boards/{config.TRELLO_BOARD_ID}/lists"
+    params = {
+        'key': config.TRELLO_API_KEY,
+        'token': config.TRELLO_API_TOKEN
+    }
+    try:
+        response = requests.get(url, params=params)
+        response.raise_for_status()
+        return response.json()
+    except Exception as e:
+        print(f"Ошибка получения списков Trello: {e}")
+        return []
+
+def create_task(title, description, member_name=None, list_id=None):
     """
-    Создает карточку в Trello [4]
+    Создаёт карточку в указанном списке (или в списке по умолчанию).
     """
+    if list_id is None:
+        list_id = config.TRELLO_LIST_ID
+
     url = "https://api.trello.com/1/cards"
     
     params = {
         'key': config.TRELLO_API_KEY,
         'token': config.TRELLO_API_TOKEN,
-        'idList': config.TRELLO_LIST_ID,
+        'idList': list_id,
         'name': title,
-        'desc': description,
+            'desc': description,
         'due': None
     }
     
