@@ -1,0 +1,15 @@
+# Основные зависимости [2][4]
+aiogram>=3.0.0
+vosk>=0.3.45
+requests>=2.31.0
+python-dotenv>=1.0.0
+ffmpeg-python>=0.2.0
+# pydub>=0.25.1
+
+# Для веб-сервера на Render
+flask>=2.3.0
+gunicorn>=20.1.0
+
+# Для тестирования
+pytest>=7.0.0
+pytest-cov>=4.0.0
